@@ -2,10 +2,12 @@ import pdfplumber
 import re
 import math
 import decimal
+import pandas as pd
+from collections import namedtuple
 
 path = "/home/franco/Downloads/Resumen de Cuenta 29-07-2021.pdf"
 with pdfplumber.open(path) as pdf:
-    page = pdf.pages[2]
+    page = pdf.pages[1]
     text = page.extract_text()
     words = page.extract_words()
 
@@ -79,55 +81,54 @@ def group_closest(lista):
 
         # print("-------------\n\n")
 
-        # print(result)
     for k,v in result.items():
-        print("[[")
         v.sort(key=sort_by_x)
-        for word in v:
-            print(word['text'], end=" ")
-        print("]]\n")
+        # for word in v:
+        #     print({'x': word['x0'], 't': word['text'], 'y': word['top']})
+        # print("----\n\n")
+    return result
 
 
 
 
 
-group_closest(words)
-
-# asd = list(map(lambda i: {'top': i['top'], 'text': i['text']}, words))
-# for i in asd:
-#     print(i)
+result = group_closest(words)
 
 
 
 
 
+descripcion = re.compile(r'(?:\s\d{4}\s)?[-a-zA-Z_ \*.]{3,}(?:[0-9]{4}\s)?')
+
+consumo = re.compile(r'-?\$[0-9 ,.]+')
+
+Consumo = namedtuple('Consumo', 'descripcion consumo')
+
+lines = []
+for k,v in result.items():
+    line = []
+    for word in v:
+        line.append(word['text'])
+    lines.append(" ".join(line))
 
 
+descripciones = []
+consumos = []
+
+for line in lines:
+
+    desc = descripcion.search(line)
+    cons = consumo.search(line)
+
+    if desc:
+        descripciones.append(desc.group())
+
+    if cons:
+        consumos.append(cons.group())
 
 
-
-# t = [
-#         {'text': 'Gold', 'x0': decimal.Decimal('355.552'), 'x1': decimal.Decimal('381.368'), 'top': decimal.Decimal('28.326'), 'bottom': decimal.Decimal('42.326'), 'upright': True, 'direction': 1},
-#         {'text': 'Infinity', 'x0': decimal.Decimal('314.000'), 'x1': decimal.Decimal('352.808'), 'top': decimal.Decimal('28.326'), 'bottom': decimal.Decimal('42.326'), 'upright': True, 'direction': 1}
-#     ]
-
-
-
-# print(t)
-# rr = t.sort(key=sort_by_x)
-# print(t)
-
-
-
-# for i in words:
-#     closest = get_closest(i['top'], lines)
-#     dict[str(closest)].append(i)
-
-# for key in dict:
-#     print(f"line: {key!s}")
-#     for line in dict[key]:
-#         print(line['text'], end=" ")
-#     print("\n")
+for line in lines:
+    print(line)
 
 
 
