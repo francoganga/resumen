@@ -89,7 +89,15 @@ def group_closest(lista):
     return result
 
 
+def sort_by_xy(arr):
+    for _ in range(0, len(arr) -1):
+        for j in range(0, len(arr) -1):
+            if arr[j]['x0'] > arr[j + 1]['x0']:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+            if arr[j]['top'] > arr[j + 1]['top']:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
 
+    return arr
 
 
 result = group_closest(words)
@@ -98,37 +106,64 @@ result = group_closest(words)
 
 
 
-descripcion = re.compile(r'(?:\s\d{4}\s)?[-a-zA-Z_ \*.]{3,}(?:[0-9]{4}\s)?')
 
-consumo = re.compile(r'-?\$[0-9 ,.]+')
+t = result['721.853']
+for i in t:
+    v = {}
 
-Consumo = namedtuple('Consumo', 'descripcion consumo')
+# lines = []
+# print(result['721.853'])
 
-lines = []
-for k,v in result.items():
-    line = []
-    for word in v:
-        line.append(word['text'])
-    lines.append(" ".join(line))
-
-
-descripciones = []
-consumos = []
-
-for line in lines:
-
-    desc = descripcion.search(line)
-    cons = consumo.search(line)
-
-    if desc:
-        descripciones.append(desc.group())
-
-    if cons:
-        consumos.append(cons.group())
+# res = sort_by_xy(result['721.853'])
+# for i in res:
+#     print({'x': i['x0'], 'y': i['top']})
 
 
-for line in lines:
-    print(line)
+# for line in lines:
+#     print(line, end="\n\n")
+
+# for k,words in result.items():
+#     for word in words:
+#         print({'x': word['x0'], 'y': word['top']})
+#     print("----\n\n")
+
+
+
+
+
+
+
+
+
+# descripcion = re.compile(r'(?:\s\d{4}\s)?[-a-zA-Z_ \*.]{3,}(?:[0-9]{4}\s)?')
+
+# consumo = re.compile(r'-?\$[0-9 ,.]+')
+
+# Consumo = namedtuple('Consumo', 'descripcion consumo')
+
+# lines = []
+# for k,v in result.items():
+#     line = []
+#     for word in v:
+#         line.append(word['text'])
+#     lines.append(" ".join(line))
+
+
+# descripciones = []
+# consumos = []
+
+# for line in lines:
+
+#     desc = descripcion.search(line)
+#     cons = consumo.search(line)
+
+#     if desc:
+#         descripciones.append(desc.group())
+
+#     if cons:
+#         consumos.append(cons.group())
+
+
 
 
 
