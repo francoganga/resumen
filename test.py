@@ -43,50 +43,57 @@ def get_closest(value, lista):
     return closest
 
 
-def group_closest(lista):
-    offset = 10
+# def group_closest(lista):
+#     offset = 10
 
-    current_key = 0
+#     current_key = 0
+#     previous_y = 0
 
-    result = {}
+#     result = {}
 
-    print(f"len: {len(lista) - 1}")
+#     print(f"len: {len(lista) - 1}")
 
-    for k, v in enumerate(lista):
-        if k < len(lista) - 1:
-            value = v['top']
-            next_value = lista[k + 1]['top']
-            diff = abs(value - next_value)
-            text = v['text']
+#     for k, v in enumerate(lista):
+#         if k < len(lista) - 1:
+#             current_y = v['top']
+#             next_value = lista[k + 1]['top']
+#             diff = abs(current_y - next_value)
+#             text = v['text']
 
-            # print(f"---text: {text} ---")
-            if current_key == 0:
-                # print("ck == 0 inicializando valor")
-                current_key = str(value)
+#             # print(f"---text: {text} ---")
+#             if current_key == 0:
+#                 # print("ck == 0 inicializando valor")
+#                 current_key = str(current_y)
 
-            elif diff <= offset:
-                # print(f"diff es menor que offset")
-                # print(f"ck: {current_key}, val_text: {text}")
-                if not current_key in result:
-                    # print(f"key no existe, creando")
-                    result[current_key] = []
-                result[current_key].append(v)
-                # print(f"haciendo append de {text} en result[{current_key}]")
-            elif diff > offset:
-                current_key = str(value)
-                # print(f"diff > offset, cambiando current_key por: {current_key}")
-                result[current_key] = []
-                result[current_key].append(v)
-                # print(f"haciendo append de {text} en result[{current_key}]")
+#             elif diff <= offset:
+#                 # print(f"diff es menor que offset")
+#                 # print(f"ck: {current_key}, val_text: {text}")
+#                 if not current_key in result:
+#                     # print(f"key no existe, creando")
+#                     result[current_key] = []
 
-        # print("-------------\n\n")
+#                 if current_y == previous_y:
 
-    for k,v in result.items():
-        v.sort(key=sort_by_x)
-        # for word in v:
-        #     print({'x': word['x0'], 't': word['text'], 'y': word['top']})
-        # print("----\n\n")
-    return result
+
+#                 result[current_key].append(v)
+#                 # print(f"haciendo append de {text} en result[{current_key}]")
+#             elif diff > offset:
+#                 current_key = str(current_y)
+#                 # print(f"diff > offset, cambiando current_key por: {current_key}")
+#                 result[current_key] = []
+#                 result[current_key].append(v)
+#                 # print(f"haciendo append de {text} en result[{current_key}]")
+
+#             previous_y = current_y
+
+#         # print("-------------\n\n")
+
+#     for k,v in result.items():
+#         v.sort(key=sort_by_x)
+#         # for word in v:
+#         #     print({'x': word['x0'], 't': word['text'], 'y': word['top']})
+#         # print("----\n\n")
+#     return result
 
 
 def sort_by_xy(arr):
@@ -100,16 +107,15 @@ def sort_by_xy(arr):
     return arr
 
 
-result = group_closest(words)
+
+
+
+for i in words:
+    print({'text': i['text'], 'y':i['top']})
 
 
 
 
-
-
-t = result['721.853']
-for i in t:
-    v = {}
 
 # lines = []
 # print(result['721.853'])
